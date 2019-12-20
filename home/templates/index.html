@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mt-3">Home</h1>
+
+<div>
+    <p>Welcome to Goanna PMS</p>
+    <p>gPMS is a patient management system, designed for small health clinics</p>
+
+    <p>Are you the owner of a small clinic? Sign up today for the latest in clinic management</p>
+</div>
+
+<div>
+    <p><h3>Currently registered clinics</h3>    
+        {% for clinic in clinics %}
+            <p>{{clinic.name}}</p>
+        {% endfor %}
+    </p>
+    <p><h3>Currently registered practitioners</h3>
+        {% for prac in regusers %}
+            <p>{{ prac.fname }} {{ prac.lname }}</p>
+        {% endfor %}
+    </p>
+    <p><h3>Current patients</h3>
+        {% for patient in users %}
+            <p>{{ patient.fname }} {{ patient.lname }}</p>
+        {% endfor %}
+    </p>
+</div>
+{% endblock %}

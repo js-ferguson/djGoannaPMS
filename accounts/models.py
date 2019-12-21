@@ -1,5 +1,5 @@
 from django.db import models
-
+from phonenumber_field.modelfields import PhoneNumberField
 
 class Users(models.Model):
     """
@@ -8,11 +8,13 @@ class Users(models.Model):
     fname = models.CharField(max_length = 20)
     lname = models.CharField(max_length = 20)
     email = models.CharField(max_length = 50)
-    phone = models.CharField(max_length = 20)
-    personnumber = models.IntegerField()
-    
+    phone = PhoneNumberField()
+    #phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    #phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
+    personnumber = models.CharField(max_length = 12)
+
     def __str__(self):
-        return self.fname    
+        return self.fname
 
     class Meta:
         verbose_name = 'Users'
@@ -25,8 +27,8 @@ class RegUsers(models.Model):
     fname = models.CharField(max_length = 20)
     lname = models.CharField(max_length = 20)
     email = models.CharField(max_length = 50)
-    phone = models.CharField(max_length = 20)
-    personnumber = models.IntegerField()
+    phone_number = PhoneNumberField()
+    personnumber = models.CharField(max_length = 12)
 
     def __str__(self):
         return self.fname
@@ -41,6 +43,7 @@ class Clinic(models.Model):
     Model defining clinic details for registered clinics
     """
     name = models.CharField(max_length = 50)
+    phone_number = PhoneNumberField()
     street = models.CharField(max_length = 50)
     city = models.CharField(max_length = 50)
     postno = models.CharField(max_length = 50)

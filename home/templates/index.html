@@ -12,7 +12,7 @@
 </div>
 
 <div>
-    <p><h3>Currently registered clinics</h3>    
+    <p><h3>Currently registered clinics</h3>
         {% for clinic in clinics %}
             <p>{{clinic.name}}</p>
         {% endfor %}
@@ -25,6 +25,7 @@
     <p><h3>Current patients</h3>
         {% for patient in users %}
             <p>{{ patient.fname }} {{ patient.lname }}</p>
+            <p>{{ patient.phone }}
         {% endfor %}
     </p>
 </div>

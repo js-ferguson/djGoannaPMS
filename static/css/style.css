@@ -1,3 +1,9 @@
+body {
+  background-color: #000; }
+
+.navbar {
+  background-color: #000; }
+
 .private-business {
   width: 100%;
   margin: auto;

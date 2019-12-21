@@ -9,5 +9,4 @@ def index(request):
 
     return render(request, "index.html", {"users": users, "regusers": reg_users, "clinics": clinics})
 
-def register(request):
-    return HttpResponse("<h1>Register</h1>")
+

@@ -4,14 +4,19 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from phonenumber_field.formfields import PhoneNumberField
 
-class PatientRegistrationForm(UserCreationForm):
+class UserLoginForm(forms.Form):
+    username_or_email = forms.CharField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
+class PatientRegistrationForm(UserCreationForm):
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label='Password Confirmation',
+        widget=forms.PasswordInput
+    )
     fname = forms.CharField(label="First Name")
     lname = forms.CharField(label="Last Name")
 
     email = forms.EmailField(required=True)
     phone = PhoneNumberField(label = "Phone Number")
-    personnummer = CharField(label = "Personnummer")
-
-    password1 = forms.CharField(label = "Password")
-    password2 = forms.CharField(label = "Repeat Password")
+    personnummer = forms.CharField(label = "Personnummer")

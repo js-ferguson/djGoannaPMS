@@ -1,5 +1,5 @@
 # Goanna PMS
-## A Patient Management for single practitioner health clinics
+## A patient management system for single practitioner health clinics
 
 ## References
 

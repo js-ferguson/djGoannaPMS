@@ -1,41 +1,60 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import PermissionsMixin
+from django.utils.translation import ugettext_lazy as _
+#from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.models import BaseUserManager
 
-class Users(models.Model):
-    """
-    Model defining patients/customers who use the site to book
-    """
-    fname = models.CharField(max_length = 20)
-    lname = models.CharField(max_length = 20)
-    email = models.CharField(max_length = 50)
-    phone = PhoneNumberField()
-    #phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    #phone_number = models.CharField(validators=[phone_regex], max_length=17, blank=True) # validators should be a list
-    personnumber = models.CharField(max_length = 12)
+
+class CustomUserManager(BaseUserManager):
+
+    def _create_user(self, email, password, **extra_fields):
+        if not email:
+            raise ValueError('Email address is required')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+        return self._create_user(email, password, **extra_fields)
+
+
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True, null=True)
+    is_staff = models.BooleanField(
+        _('staff status'),
+        default=False,
+        help_text=_('Designates whether the user can log into this site.'),
+    )
+    is_active = models.BooleanField(
+        _('active'),
+        default=True,
+        help_text=_(
+            'Designates whether this user should be treated as active. '
+            'Unselect this instead of deleting accounts.'
+        ),
+    )
+    USERNAME_FIELD = 'email'
+    objects = CustomUserManager()
 
     def __str__(self):
-        return self.fname
+        return self.email
 
-    class Meta:
-        verbose_name = 'Users'
-        verbose_name_plural = 'Users'
+    def get_full_name(self):
+        return self.email
 
-class RegUsers(models.Model):
-    """
-    model defining paid users of the site
-    """
-    fname = models.CharField(max_length = 20)
-    lname = models.CharField(max_length = 20)
-    email = models.CharField(max_length = 50)
-    phone_number = PhoneNumberField()
-    personnumber = models.CharField(max_length = 12)
-
-    def __str__(self):
-        return self.fname
-
-    class Meta:
-        verbose_name = 'Registered Users'
-        verbose_name_plural = 'Registered Users'
+    def get_short_name(self):
+        return self.email
 
 
 class Clinic(models.Model):
@@ -43,12 +62,12 @@ class Clinic(models.Model):
     Model defining clinic details for registered clinics
     """
     name = models.CharField(max_length = 50)
-    phone_number = PhoneNumberField()
+ #   phone_number = PhoneNumberField()
     street = models.CharField(max_length = 50)
     city = models.CharField(max_length = 50)
     postno = models.CharField(max_length = 50)
-    owner = models.ForeignKey(RegUsers, on_delete=models.CASCADE)
-    patients = models.ManyToManyField(Users)
+ #   owner = models.ForeignKey(RegUsers, on_delete=models.CASCADE)
+ #   patients = models.ManyToManyField(Users)
 
     def __str__(self):
         return self.name

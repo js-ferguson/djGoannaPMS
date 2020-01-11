@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'scheduler',
     'phonenumber_field',
     'django_forms_bootstrap',
+    'django_use_email_as_username.apps.DjangoUseEmailAsUsernameConfig',
 ]
 
 MIDDLEWARE = [
@@ -105,6 +106,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/

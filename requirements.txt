@@ -1,6 +1,6 @@
 asgiref==3.2.3
 Babel==2.7.0
-Django==3.0.1
+Django==3.0.14
 django-forms-bootstrap==3.1.0
 django-phonenumber-field==4.0.0
 phonenumbers==8.11.1
